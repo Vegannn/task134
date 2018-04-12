@@ -1,16 +1,17 @@
-
 var OSinfo = require('../modules/OSinfo');
-var OSinfo = require('../modules/getTime');
+var getTime = require('../modules/getTime');
+
 process.stdin.setEncoding('utf-8');
 process.stdin.on('readable', function() {
-    var input = process.stdin.read();
-    var cyfra = process.stdin.read();
-    if(input !== null) {
+    var input = process.stdin.read();    
+    var cyfra = input ? input.replace('/getTime', '').trim() : '';
+    
+    if (input !== null) {
         var instruction = input.trim();
-        switch(instruction) {
+
+        switch (instruction) {
             case '/exit':
                 process.stdout.write('Quitting app!\n');
-
                 process.exit();
                 break;
             case '/sayhello':
@@ -18,14 +19,12 @@ process.stdin.on('readable', function() {
                 break;
             case '/getOSinfo':
                 OSinfo.print();
-            break;
-            //case '/getTime('+cyfra+')':
-            //   getTime(cyfra); 
-            //   break;
+                break;
+            case '/getTime'+cyfra:
+               getTime.print2(cyfra); 
+               break;
             default:
-                //process.stderr.write('Wrong instruction!\n');
-                getTime.print2(instruction);   
-        };
+                process.stderr.write('Wrong instruction!\n');
+        }
     }
 });
-
